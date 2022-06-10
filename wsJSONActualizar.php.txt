@@ -1,0 +1,26 @@
+
+<?PHP
+$hostname_localhost="localhost";
+$database_localhost="id19072042_libros";
+$username_localhost="id19072042_root";
+$password_localhost="";
+
+$conexion=mysqli_connect($hostname_localhost,$username_localhost,$password_localhost,$database_localhost);
+
+    $id=$_POST["id"];
+	$titulo=$_POST["titulo"];
+	$autor = $_POST["autor"];
+	$descripcion = $_POST["descripcion"];
+	$estado= $_POST["estado"];
+	
+	$sql="UPDATE libro SET titulo=? , autor=?, descripcion=?, estado=? WHERE id=?";
+	$stmt=$conexion->prepare($sql);
+	$stmt->bind_param('ssssi',$titulo,$autor,$descripcion,$estado,$id);
+		
+	if($stmt->execute()){
+		echo "actualiza";
+	}else{
+		echo "noActualiza";
+	}
+	mysqli_close($conexion);
+?>

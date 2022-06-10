@@ -1,0 +1,51 @@
+<?PHP
+$hostname_localhost="localhost";
+$database_localhost="id19072042_libros";
+$username_localhost="id19072042_root";
+$password_localhost="";
+
+$json=array();
+
+ if(isset($_GET["titulo"]) && isset($_GET["autor"]) && isset($_GET["descripcion"]) && isset($_GET["estado"]) && isset($_GET["usuario"])){
+  $titulo=$_GET['titulo'];
+  $autor=$_GET['autor'];
+  $descripcion=$_GET['descripcion'];
+  $estado=$_GET['estado'];
+  $usuario=$_GET['usuario'];
+
+  $conexion = mysqli_connect($hostname_localhost, $username_localhost, $password_localhost, $database_localhost);
+
+  $insert="INSERT INTO libro(titulo, autor, descripcion, estado, usuario) VALUES ('{$titulo}','{$autor}','{$descripcion}','{$estado}', '{$usuario}')";
+  $resultado_insert = mysqli_query($conexion, $insert);
+  
+   
+  if($resultado_insert){
+     
+   $consulta = "SELECT * FROM libro WHERE titulo = '{$titulo}'";
+   $resultado=mysqli_query($conexion, $consulta);
+  
+   if($registro=mysqli_fetch_array($resultado)){
+    $json['libro'][]=$registro;
+   }
+   mysqli_close($conexion);
+   echo json_encode($json);
+   
+  }else{
+   $resulta["titulo"]=0;
+   $resulta["autor"]="NO registra";
+   $resulta["descripcion"]="NO registra";
+   $resulta["estado"]="NO registra";
+   $resulta["usuario"]="NO registra";
+   $json['libro'][]=$resulta;
+   echo json_encode($json);
+  }
+ }else{
+  $resulta["titulo"]=0;
+  $resulta["autor"]="WS NO retorna";
+  $resulta["descripcion"]="WS NO retorna";
+  $resulta["estado"]="WS NO retorna";
+  $resulta["usuario"]="WS NO retorna";
+  $json['libro'][]=$resulta;
+  echo json_encode($json);
+ }
+?>

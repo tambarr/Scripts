@@ -1,0 +1,28 @@
+<?PHP
+$hostname_localhost="localhost";
+$database_localhost="id19072042_libros";
+$username_localhost="id19072042_root";
+$password_localhost="";
+
+if(isset($_GET["id"])){
+    $id=$_GET["id"];
+
+
+    $conexion=mysqli_connect($hostname_localhost,$username_localhost,$password_localhost,$database_localhost);
+
+	$sql="DELETE FROM libro WHERE id=?";
+	
+	$stmt=$conexion->prepare($sql);
+	$stmt->bind_param('i',$id);
+		
+	if($stmt->execute()){
+		echo "elimina";
+	}else{
+		echo "noElimina";
+	}
+	mysqli_close($conexion);
+}
+else{
+    echo "noExiste";
+}
+?>
